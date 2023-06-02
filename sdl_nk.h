@@ -1,10 +1,7 @@
-#ifndef H_SDL_NK
-#define H_SDL_NK
-
 #include "SDL2/SDL.h"
 #include "cairo/cairo.h"
 
-/* credits:
+/* references:
 /	https://gitlab.com/riribreizh/nk_pugl_cairo/-/blob/main/nk_pugl_cairo.h
 /	https://github.com/space222/silo/blob/master/silo.cpp
 /	https://github.com/Immediate-Mode-UI/Nuklear/blob/master/demo/sdl_opengl2/nuklear_sdl_gl2.h
@@ -13,15 +10,10 @@
 #define NK_DEG_TO_RAD(x) ((double) x * NK_PI / 180.0)
 #define NK_TO_CAIRO(x) ((double) x / 255.0)
 
-
 void sdl_nk_handle_event(struct nk_context *ctx, SDL_Event *evt);
 void sld_nk_draw(struct nk_context *ctx, cairo_t *cr);
 
-#endif
-
-#define SDL_NK_IMPLEMENTATION
 #ifdef SDL_NK_IMPLEMENTATION
-
 
 void sdl_nk_handle_event(struct nk_context *ctx, SDL_Event *evt) {
 	switch (evt->type) {
@@ -142,7 +134,7 @@ void sld_nk_draw(struct nk_context *ctx, cairo_t *cr) {
 				cairo_fill(cr);
 			} break;
 
-		case NK_COMMAND_RECT_MULTI_COLOR: /* TODO */ break;
+
 
 			case NK_COMMAND_CIRCLE: {
 				const struct nk_command_circle *c = (const struct nk_command_circle *)cmd;
@@ -235,15 +227,15 @@ void sld_nk_draw(struct nk_context *ctx, cairo_t *cr) {
 			} break;
 
 			case NK_COMMAND_POLYLINE: {
-                const struct nk_command_polyline *p = (const struct nk_command_polyline *)cmd;
+				const struct nk_command_polyline *p = (const struct nk_command_polyline *)cmd;
 
-                cairo_set_source_rgba(cr, NK_TO_CAIRO(p->color.r), NK_TO_CAIRO(p->color.g), NK_TO_CAIRO(p->color.b), NK_TO_CAIRO(p->color.a));
-                cairo_set_line_width(cr, p->line_thickness);
-                cairo_move_to(cr, p->points[0].x, p->points[0].y);
-                for (int i = 1; i < p->point_count; ++i) {
-                    cairo_line_to(cr, p->points[i].x, p->points[i].y);
-                }
-                cairo_stroke(cr);
+				cairo_set_source_rgba(cr, NK_TO_CAIRO(p->color.r), NK_TO_CAIRO(p->color.g), NK_TO_CAIRO(p->color.b), NK_TO_CAIRO(p->color.a));
+				cairo_set_line_width(cr, p->line_thickness);
+				cairo_move_to(cr, p->points[0].x, p->points[0].y);
+				for (int i = 1; i < p->point_count; ++i) {
+					cairo_line_to(cr, p->points[i].x, p->points[i].y);
+				}
+				cairo_stroke(cr);
 			} break;
 
 			case NK_COMMAND_TEXT: {
@@ -266,10 +258,9 @@ void sld_nk_draw(struct nk_context *ctx, cairo_t *cr) {
 				// TODO
 			} break;
 
-
-
-
-
+			case NK_COMMAND_RECT_MULTI_COLOR: {
+				// TODO
+			} break;
 
 		} // end switch
 		
